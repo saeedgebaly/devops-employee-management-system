@@ -10,8 +10,13 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(nullable = false)
+    private String firstName;
 
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
     private String department;
@@ -19,14 +24,6 @@ public class Employee {
     private Double salary;
 
     public Employee() {
-    }
-
-    public Employee(Long id, String name, String email, String department, Double salary) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.department = department;
-        this.salary = salary;
     }
 
     public Long getId() {
@@ -37,12 +34,20 @@ public class Employee {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {

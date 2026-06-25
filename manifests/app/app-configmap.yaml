@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: employee-config
+  namespace: dev
+data:
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/employeedb
+  SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  SPRING_JPA_SHOW_SQL: "true"
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+  MANAGEMENT_ENDPOINTS_HEALTH_SHOW_DETAILS: always
