@@ -1,0 +1,17 @@
+stages:
+  - build
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+build:
+  stage: build
+  script:
+    - echo "Building..."
+    - cd app
+    - chmod +x mvnw
+    - ./mvnw clean package
+  artifacts:
+    paths:
+      - app/target/*.jar
+    expire_in: 1 hour
