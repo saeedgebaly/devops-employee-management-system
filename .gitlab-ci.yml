@@ -2,6 +2,7 @@ stages:
   - test
   - build
   - docker
+  - update-manifests
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
@@ -43,3 +44,18 @@ docker:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker push saeedgebaly/employee-management:$CI_COMMIT_SHORT_SHA
     - docker push saeedgebaly/employee-management:latest
+
+update-manifests:
+  stage: update-manifests
+  tags:
+    - docker
+  script:
+    - echo "Updating manifests..."
+    - sed -i "s|image: saeedgebaly/employee-management:.*|image: saeedgebaly/employee-management:${CI_COMMIT_SHORT_SHA}|g" manifests/app/app-deployment.yaml
+    - git config user.email "gitlab-ci@gitlab.com"
+    - git config user.name "GitLab CI"
+    - git add manifests/app/app-deployment.yaml
+    - git diff --cached --quiet || git commit -m "Update image tag ${CI_COMMIT_SHORT_SHA} [skip ci]"
+    - git push origin HEAD:develop
+  only:
+    - develop
