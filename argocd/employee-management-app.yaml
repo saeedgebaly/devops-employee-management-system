@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:saeedgebaly/devops-employee-management-system.git
+    repoURL: https://gitlab.com/saeedgebaly7/devops-employee-management-system.git
     targetRevision: main
     path: manifests
   destination:
