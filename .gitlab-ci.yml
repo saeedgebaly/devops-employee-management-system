@@ -51,7 +51,7 @@ update-manifests:
     - docker
   script:
     - echo "Updating manifests..."
-    - sed -i "s|image: saeedgebaly/employee-management:.*|image: saeedgebaly/employee-management:${CI_COMMIT_SHORT_SHA}|g" manifests/app/app-deployment.yaml
+    - 'sed -i "s|image: saeedgebaly/employee-management:.*|image: saeedgebaly/employee-management:${CI_COMMIT_SHORT_SHA}|g" manifests/app/app-deployment.yaml'
     - git config user.email "gitlab-ci@gitlab.com"
     - git config user.name "GitLab CI"
     - git add manifests/app/app-deployment.yaml
