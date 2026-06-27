@@ -1,8 +1,20 @@
 stages:
+  - test
   - build
+  - docker
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+test:
+  stage: test
+  tags:
+    - docker
+  script:
+    - echo "Testing..."
+    - cd app
+    - chmod +x mvnw
+    - ./mvnw test
 
 build:
   stage: build
@@ -12,8 +24,17 @@ build:
     - echo "Building..."
     - cd app
     - chmod +x mvnw
-    - ./mvnw clean package
+    - ./mvnw clean package -DskipTests
   artifacts:
     paths:
       - app/target/*.jar
     expire_in: 1 hour
+
+docker:
+  stage: docker
+  tags:
+    - docker
+  script:
+    - echo "Building Docker image..."
+    - docker build -t employee-management:$CI_COMMIT_SHORT_SHA app
+    - docker images | grep employee-management

@@ -12,7 +12,7 @@ RUN ./mvnw dependency:go-offline
 
 COPY src src
 
-RUN ./mvnw clean package -DskipTests
+RUN ./mvnw package -DskipTests
 
 FROM eclipse-temurin:17-jre
 
