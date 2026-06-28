@@ -9,6 +9,8 @@ spec:
     repoURL: https://gitlab.com/saeedgebaly7/devops-employee-management-system.git
     targetRevision: develop
     path: manifests
+    directory:
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
