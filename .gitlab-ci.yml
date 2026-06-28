@@ -2,7 +2,6 @@ stages:
   - test
   - build
   - docker
-  - security-scan
   - update-manifests
 
 variables:
@@ -42,15 +41,6 @@ docker:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker push saeedgebaly/employee-management:$CI_COMMIT_SHORT_SHA
     - docker push saeedgebaly/employee-management:latest
-
-security-scan:
-  stage: security-scan
-  tags:
-    - docker
-  script:
-    - echo "Security scanning..."
-    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image saeedgebaly/employee-management:$CI_COMMIT_SHORT_SHA
-  allow_failure: true
 
 update-manifests:
   stage: update-manifests
