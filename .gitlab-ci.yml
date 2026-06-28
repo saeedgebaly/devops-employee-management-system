@@ -2,6 +2,7 @@ stages:
   - test
   - build
   - docker
+  - security-scan
   - update-manifests
 
 variables:
@@ -42,6 +43,15 @@ docker:
     - docker push saeedgebaly/employee-management:$CI_COMMIT_SHORT_SHA
     - docker push saeedgebaly/employee-management:latest
 
+security-scan:
+  stage: security-scan
+  tags:
+    - docker
+  script:
+    - echo "Security scanning..."
+    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image saeedgebaly/employee-management:$CI_COMMIT_SHORT_SHA
+  allow_failure: true
+
 update-manifests:
   stage: update-manifests
   tags:
@@ -55,6 +65,6 @@ update-manifests:
     - git remote set-url origin https://oauth2:${GITLAB_TOKEN}@gitlab.com/saeedgebaly7/devops-employee-management-system.git
     - git add manifests/app/app-deployment.yaml
     - git diff --cached --quiet || git commit -m "Update image tag ${CI_COMMIT_SHORT_SHA} [skip ci]"
-    - git push origin HEAD:develop
+    - git push origin HEAD:gitops
   only:
     - develop

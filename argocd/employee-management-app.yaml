@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://gitlab.com/saeedgebaly7/devops-employee-management-system.git
-    targetRevision: develop
+    targetRevision: gitops
     path: manifests
     directory:
       recurse: true
