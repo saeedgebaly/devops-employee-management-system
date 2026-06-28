@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: employee-management
-          image: saeedgebaly/employee-management:194d6d06
+          image: saeedgebaly/employee-management:1a524fe9
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
