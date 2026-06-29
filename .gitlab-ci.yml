@@ -51,8 +51,12 @@ update-manifests:
     - 'sed -i "s|image: saeedgebaly/employee-management:.*|image: saeedgebaly/employee-management:${CI_COMMIT_SHORT_SHA}|g" manifests/app/app-deployment.yaml'
     - git config user.email "gitlab-ci@gitlab.com"
     - git config user.name "GitLab CI"
-    - 'echo "Token length: ${#GITLAB_TOKEN}"'
+
     - git remote set-url origin https://oauth2:${GITLAB_TOKEN}@gitlab.com/saeedgebaly7/devops-employee-management-system.git
+    - git fetch origin gitops
+    - git checkout -B gitops origin/gitops
+    - 'sed -i "s|image: saeedgebaly/employee-management:.*|image: saeedgebaly/employee-management:${CI_COMMIT_SHORT_SHA}|g" manifests/app/app-deployment.yaml'
+
     - git add manifests/app/app-deployment.yaml
     - git diff --cached --quiet || git commit -m "Update image tag ${CI_COMMIT_SHORT_SHA} [skip ci]"
     - git push origin HEAD:gitops
