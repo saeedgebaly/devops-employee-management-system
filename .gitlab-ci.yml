@@ -1,8 +1,9 @@
 stages:
   - test
   - build
-  - docker
+  - image-build
   - security-scan
+  - docker-push
   - update-manifests
 
 variables:
@@ -32,25 +33,48 @@ build:
       - app/target/*.jar
     expire_in: 1 hour
 
-docker:
-  stage: docker
+image-build:
+  stage: image-build
+  dependencies:
+    - build
   tags:
     - docker
+
   script:
-    - echo "Building Docker image..."
-    - docker build -t saeedgebaly/employee-management:$CI_COMMIT_SHORT_SHA -t saeedgebaly/employee-management:latest app
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker push saeedgebaly/employee-management:$CI_COMMIT_SHORT_SHA
-    - docker push saeedgebaly/employee-management:latest
+    - docker build -t employee-management:${CI_COMMIT_SHORT_SHA} app
 
 security-scan:
   stage: security-scan
+  dependencies:
+    - image-build
   tags:
     - docker
+
   script:
-    - echo "Security scanning..."
-    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image saeedgebaly/employee-management:$CI_COMMIT_SHORT_SHA
-  allow_failure: true
+    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/tmp aquasec/trivy image --severity HIGH,CRITICAL --exit-code 1 --format table -o /tmp/trivy-report.txt employee-management:${CI_COMMIT_SHORT_SHA}
+
+    - cat trivy-report.txt
+
+  artifacts:
+    paths:
+      - trivy-report.txt
+    expire_in: 7 days
+
+docker-push:
+  stage: docker-push
+  dependencies:
+    - security-scan
+  tags:
+    - docker
+
+  script:
+    - docker tag employee-management:${CI_COMMIT_SHORT_SHA} saeedgebaly/employee-management:${CI_COMMIT_SHORT_SHA}
+    - docker tag employee-management:${CI_COMMIT_SHORT_SHA} saeedgebaly/employee-management:latest
+
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+    - docker push saeedgebaly/employee-management:${CI_COMMIT_SHORT_SHA}
+    - docker push saeedgebaly/employee-management:latest
 
 update-manifests:
   stage: update-manifests
