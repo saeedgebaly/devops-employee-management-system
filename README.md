@@ -38,7 +38,23 @@ docs/
 
 ## Architecture
 
-(To be added)
+Developer
+   ↓
+GitLab
+   ↓
+Docker Build
+   ↓
+Trivy Scan
+   ↓
+Docker Hub
+   ↓
+GitOps Branch
+   ↓
+ArgoCD
+   ↓
+Kubernetes
+   ↓
+Prometheus/Grafana
 
 ## CI/CD Pipeline
 
