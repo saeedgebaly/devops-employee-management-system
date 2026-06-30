@@ -51,7 +51,7 @@ security-scan:
     - docker
 
   script:
-    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/tmp aquasec/trivy image --severity HIGH,CRITICAL --exit-code 1 --format table -o /tmp/trivy-report.txt employee-management:${CI_COMMIT_SHORT_SHA}
+    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.cache/trivy:/root/.cache aquasec/trivy image --severity HIGH,CRITICAL --exit-code 1 employee-management:${CI_COMMIT_SHORT_SHA}
 
     - cat trivy-report.txt
 
