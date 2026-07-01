@@ -64,8 +64,6 @@ security-scan:
         --exit-code 1 \
         employee-management:${CI_COMMIT_SHORT_SHA}
 
-    - cat trivy-report.txt
-
   artifacts:
     paths:
       - trivy-report.txt
