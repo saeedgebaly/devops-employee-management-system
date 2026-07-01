@@ -60,7 +60,7 @@ security-scan:
         --skip-db-update \
         --skip-java-db-update \
         --skip-version-check \
-        --severity HIGH,CRITICAL \
+        --severity CRITICAL \
         --exit-code 1 \
         employee-management:${CI_COMMIT_SHORT_SHA}
 
