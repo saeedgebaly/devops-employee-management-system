@@ -37,7 +37,8 @@ A production-style DevOps project demonstrating the deployment and management of
 
 ## Project Structure
 
-devops-employee-management-system
+```text
+devops-employee-management-system/
 ├── app/
 │   └── Spring Boot Application
 ├── docker/
@@ -52,30 +53,25 @@ devops-employee-management-system
 │   └── screenshots/
 ├── .gitlab-ci.yml
 └── README.md
-
+```
 ## Architecture
 
 ![alt text](screenshots/Architecture Diagram.png)
 
+
 ## CI/CD Pipeline
 
-Developer
-   ↓
-GitLab Repository
-   ↓
-Build Stage
-   ↓
-Docker Image Build
-   ↓
-Trivy Security Scan
-   ↓
-Push Image to Docker Hub
-   ↓
-Update Kubernetes Manifests
-   ↓
-ArgoCD Sync
-   ↓
-Kubernetes Deployment
+| Stage | Description |
+|---------|------------|
+| Source | Developer pushes code to GitLab |
+| Build | Maven builds Spring Boot application |
+| Docker Build | Docker image is created |
+| Security Scan | Trivy scans the image |
+| Push Image | Image pushed to Docker Hub |
+| Update Manifests | GitLab updates Kubernetes manifests |
+| GitOps Sync | ArgoCD detects changes |
+| Deploy | Application deployed to Kubernetes |
+```
 
 ![alt text](screenshots/pipeline.png)
 ## Monitoring
@@ -112,10 +108,10 @@ Metrics collected include:
 
 
 ### Grafana Dashboard
+![alt text](screenshots/grafana.png)
+
 ![alt text](screenshots/grafana-alert.png)
 
-### Application
-![Application](docs/screenshots/application.png)
 
 ## Author
 
