@@ -51,17 +51,18 @@ security-scan:
     - docker
 
   script:
-    - docker run --rm \
-      -v /var/run/docker.sock:/var/run/docker.sock \
-      -v /home/gitlab-runner/.cache/trivy/trivy:/root/.cache/trivy \
-      aquasec/trivy:0.71.2 image \
-      --scanners vuln \
-      --skip-db-update \
-      --skip-java-db-update \
-      --skip-version-check \
-      --severity HIGH,CRITICAL \
-      --exit-code 1 \
-      employee-management:${CI_COMMIT_SHORT_SHA}
+    - |
+      docker run --rm \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        -v /home/gitlab-runner/.cache/trivy/trivy:/root/.cache/trivy \
+        aquasec/trivy:0.71.2 image \
+        --scanners vuln \
+        --skip-db-update \
+        --skip-java-db-update \
+        --skip-version-check \
+        --severity HIGH,CRITICAL \
+        --exit-code 1 \
+        employee-management:${CI_COMMIT_SHORT_SHA}
 
     - cat trivy-report.txt
 
