@@ -57,8 +57,6 @@ security-scan:
         -v /home/gitlab-runner/.cache/trivy/trivy:/root/.cache/trivy \
         aquasec/trivy:0.71.2 image \
         --scanners vuln \
-        --skip-db-update \
-        --skip-java-db-update \
         --skip-version-check \
         --severity CRITICAL \
         --exit-code 1 \
