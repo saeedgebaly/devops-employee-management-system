@@ -71,7 +71,7 @@ devops-employee-management-system/
 | Update Manifests | GitLab updates Kubernetes manifests |
 | GitOps Sync | ArgoCD detects changes |
 | Deploy | Application deployed to Kubernetes |
-```
+
 
 ![alt text](screenshots/pipeline.png)
 ## Monitoring
