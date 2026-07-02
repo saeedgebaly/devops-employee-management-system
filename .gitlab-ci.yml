@@ -56,6 +56,7 @@ security-scan:
         -v /var/run/docker.sock:/var/run/docker.sock \
         -v /home/gitlab-runner/.cache/trivy/trivy:/root/.cache/trivy \
         aquasec/trivy:0.71.2 image \
+        --timeout 20m \
         --scanners vuln \
         --skip-version-check \
         --severity CRITICAL \
